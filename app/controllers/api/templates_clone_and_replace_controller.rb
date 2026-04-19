@@ -63,7 +63,7 @@ module Api
     private
 
     def build_uploaded_files(documents_param)
-      Array(documents_param).map do |doc|
+      Array(documents_param).filter_map do |doc|
         attrs = doc.respond_to?(:to_unsafe_h) ? doc.to_unsafe_h : doc.to_h
         file_value = attrs['file'] || attrs[:file]
         next unless file_value
@@ -81,7 +81,7 @@ module Api
           filename: filename,
           type: content_type || 'application/pdf'
         )
-      end.compact
+      end
     end
 
     def decode_data_uri(value)
