@@ -41,7 +41,7 @@ module Api
       cloned_template.save!
 
       uploaded_files = build_uploaded_files(params[:documents])
-      replace_params = { 'files' => uploaded_files }
+      replace_params = ActionController::Parameters.new(files: uploaded_files).permit!
 
       documents = Templates::ReplaceAttachments.call(cloned_template, replace_params, extract_fields: true)
 
